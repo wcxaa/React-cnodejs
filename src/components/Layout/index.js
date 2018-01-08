@@ -5,7 +5,7 @@ import Navigation from '@components/Navigation';
 
 class Layout extends React.Component {
     static propTypes = {
-        RouterView: PropTypes.func,
+        RouterView: PropTypes.object.isRequired,
     };
 
     render() {
@@ -14,7 +14,7 @@ class Layout extends React.Component {
         return (
             <div>
                 <Navigation />
-                <RouterView />
+                {RouterView}
             </div>
         );
     }

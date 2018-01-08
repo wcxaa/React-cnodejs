@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
 import { PAGE_TYPE_MAP } from '@js/constants';
@@ -8,6 +9,13 @@ import './index.less';
 
 class Navigation extends React.Component {
     static propTypes = {
+        user: PropTypes.shape({
+            loginname: PropTypes.string.isRequired,
+            avatar_url: PropTypes.string.isRequired,
+        }).isRequired,
+        message: PropTypes.shape({
+            notReadCount: PropTypes.number.isRequired,
+        }).isRequired,
         location: PropTypes.object.isRequired,
     };
     constructor(props) {
@@ -17,16 +25,27 @@ class Navigation extends React.Component {
             showMenu: false,
         };
 
+        this.resetMenu = this.resetMenu.bind(this);
         this.toggleMenu = this.toggleMenu.bind(this);
     }
-
+    shouldComponentUpdate(nextProps) {
+        if (this.props.location !== nextProps.location) {
+            this.resetMenu();
+        }
+        return true;
+    }
+    resetMenu() {
+        this.setState({
+            showMenu: false,
+        });
+    }
     toggleMenu() {
         this.setState(prevState => ({
             showMenu: !prevState.showMenu,
         }));
     }
     render() {
-        const { location } = this.props;
+        const { location, user, message } = this.props;
         return (
             <div className={`navigation ${this.state.showMenu ? 'show-menu' : ''}`}>
                 <header className="navigation-header">
@@ -40,26 +59,34 @@ class Navigation extends React.Component {
                 <div className="navigation-divider" />
                 <section className="navigation-sidebar">
                     <div className="navigation-userinfo">
-                        <div v-if="!userInfo.loginname">
-                            <Link
-                                to={`/login?redirect=${encodeURIComponent(location.pathname)}`}
-                                className="navigation-sidebar-link"
-                            >
-                                <span className="navigation-icon navigation-icon-login iconfont icon-login" />{' '}
-                                登录
-                            </Link>
-                        </div>
-                        <div v-if="userInfo.loginname">
-                            <Link to="/user/" className="navigation-sidebar-link">
-                                <span className="navigation-icon navigation-avatar-wrapper iconfont icon-account">
-                                    <img
-                                        className="navigation-avatar"
-                                        alt="avater"
-                                        v-if="userInfo.avatar_url"
-                                    />
-                                </span>
-                            </Link>
-                        </div>
+                        {user.loginname ? (
+                            <div>
+                                <Link to="/user/" className="navigation-sidebar-link">
+                                    <span className="navigation-icon navigation-avatar-wrapper iconfont icon-account">
+                                        {user.avatar_url ? (
+                                            <img
+                                                className="navigation-avatar"
+                                                src={user.avatar_url}
+                                                alt="avater"
+                                            />
+                                        ) : (
+                                            ''
+                                        )}
+                                    </span>
+                                    {user.loginname}
+                                </Link>
+                            </div>
+                        ) : (
+                            <div>
+                                <Link
+                                    to={`/login?redirect=${encodeURIComponent(location.pathname)}`}
+                                    className="navigation-sidebar-link"
+                                >
+                                    <span className="navigation-icon navigation-icon-login iconfont icon-login" />{' '}
+                                    登录
+                                </Link>
+                            </div>
+                        )}
                     </div>
                     <div className="navigation-sidebar-links">
                         <Link to="/topic-list?tab=all" className="navigation-sidebar-link">
@@ -89,10 +116,11 @@ class Navigation extends React.Component {
                         <Link to="/message" className="navigation-sidebar-link divide">
                             <span className="navigation-icon iconfont icon-message" />
                             {PAGE_TYPE_MAP['message']}
-                            <span
-                                className="navigation-message-not-read-count"
-                                v-if="messageNotReadCount>0"
-                            />
+                            {message.notReadCount > 0 ? (
+                                <span className="navigation-message-not-read-count" />
+                            ) : (
+                                ''
+                            )}
                         </Link>
                         <Link to="/about" className="navigation-sidebar-link">
                             <span className="navigation-icon iconfont icon-about" />
@@ -106,4 +134,11 @@ class Navigation extends React.Component {
     }
 }
 
-export default withRouter(Navigation);
+const mapStateToProps = state => {
+    return {
+        user: state.user,
+        message: state.message,
+    };
+};
+
+export default withRouter(connect(mapStateToProps)(Navigation));

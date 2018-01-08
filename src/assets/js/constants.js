@@ -1,3 +1,5 @@
+export const baseURL = 'https://cnodejs.org/api/v1';
+
 export const PAGE_TYPE_MAP = {
     all: '全部',
     share: '分享',

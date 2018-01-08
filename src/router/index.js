@@ -1,37 +1,33 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
-import Routes from '@components/Routes';
 import Layout from '@components/Layout';
 import NotFound from '@components/NotFound';
 import Home from '@pages/Home';
+import Login from '@pages/Login';
 import TopicList from '@pages/TopicList';
-
-const routes = [
-    {
-        path: '/',
-        component: Home,
-        exact: true,
-    },
-    {
-        path: '/',
-        component: Layout,
-        routes: [
-            {
-                path: 'topic-list',
-                component: TopicList,
-            },
-        ],
-    },
-    {
-        path: '*',
-        component: NotFound,
-    },
-];
+import About from '@pages/About';
 
 const Router = props => (
     <BrowserRouter>
-        <Routes routes={routes} />
+        <Switch>
+            <Route path="/" component={Home} exact />
+            <Route
+                path="/"
+                render={props => (
+                    <Layout
+                        RouterView={
+                            <Switch>
+                                <Route path="/login" component={Login} />
+                                <Route path="/topic-list" component={TopicList} />
+                                <Route path="/about" component={About} />
+                                <Route component={NotFound} />
+                            </Switch>
+                        }
+                    />
+                )}
+            />
+        </Switch>
     </BrowserRouter>
 );
 
