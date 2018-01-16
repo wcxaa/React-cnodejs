@@ -6,10 +6,11 @@ class Error extends React.Component {
         error: PropTypes.object.isRequired,
     };
     render() {
+        const { error } = this.props;
         return (
             <div className="error-container">
                 出错了, error:<br />
-                {this.props.error}
+                {error && error.message}
             </div>
         );
     }

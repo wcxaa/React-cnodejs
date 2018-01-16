@@ -8,6 +8,7 @@ import { PersistGate } from 'redux-persist/es/integration/react';
 
 import user from './user';
 import message from './message';
+import topicList from './topicList';
 
 const config = {
     key: 'root',
@@ -18,6 +19,7 @@ const store = createStore(
     persistCombineReducers(config, {
         user,
         message,
+        topicList,
     }),
     compose(
         applyMiddleware(thunk),

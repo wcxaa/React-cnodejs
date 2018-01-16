@@ -1,9 +1,45 @@
-import axios from 'axios';
-import { baseURL } from '@js/constants';
+import { fetch } from '@js/utils';
 
 const SET_USER = Symbol('setUser');
 
 const SET_IS_HANDLING_LOGIN = Symbol('setIsHandlingLogin');
+
+const setUser = user => ({
+    type: SET_USER,
+    user,
+});
+
+export const setIsHandlingLogin = isHandlingLogin => ({
+    type: SET_IS_HANDLING_LOGIN,
+    isHandlingLogin,
+});
+
+export const handleLogin = token => async dispatch => {
+    if (!token) {
+        throw new Error('令牌格式错误,应为36位UUID字符串');
+    }
+    let res = null;
+    try {
+        dispatch(setIsHandlingLogin(true));
+        res = await fetch('/accesstoken', {
+            method: 'post',
+            data: {
+                accesstoken: token,
+            },
+        });
+    } finally {
+        dispatch(setIsHandlingLogin(false));
+    }
+    const data = res.data;
+    const user = {
+        loginname: data.loginname,
+        avatar_url: data.avatar_url,
+        id: data.id,
+        token,
+    };
+
+    dispatch(setUser(user));
+};
 
 export default (
     state = {
@@ -30,46 +66,4 @@ export default (
         default:
             return state;
     }
-};
-
-export const setUser = user => ({
-    type: SET_USER,
-    user,
-});
-
-export const setIsHandlingLogin = isHandlingLogin => ({
-    type: SET_IS_HANDLING_LOGIN,
-    isHandlingLogin,
-});
-
-export const handleLogin = token => async dispatch => {
-    if (!token) {
-        throw new Error('令牌格式错误,应为36位UUID字符串');
-    }
-    let res = null;
-    try {
-        dispatch(setIsHandlingLogin(true));
-        res = await axios.post(
-            '/accesstoken',
-            {
-                accesstoken: token,
-            },
-            {
-                baseURL,
-            },
-        );
-    } catch (error) {
-        throw new Error(error.response.data.error_msg);
-    } finally {
-        dispatch(setIsHandlingLogin(false));
-    }
-    const data = res.data;
-    const user = {
-        loginname: data.loginname,
-        avatar_url: data.avatar_url,
-        id: data.id,
-        token,
-    };
-
-    dispatch(setUser(user));
 };

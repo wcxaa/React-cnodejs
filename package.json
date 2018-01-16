@@ -33,7 +33,8 @@
     "react-transition-group": "^2.2.1",
     "redux": "^3.7.2",
     "redux-persist": "^5.4.0",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "timeago.js": "^3.0.2"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

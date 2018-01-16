@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { parse } from 'qs';
+
 import { handleLogin } from '@store/user';
 import { withAlert } from '@components/Alert';
+import { getQuery } from '@js/utils';
 import './index.less';
 
 class Login extends React.Component {
@@ -47,7 +48,7 @@ class Login extends React.Component {
             return false;
         }
 
-        const query = parse(location.search.substr(1));
+        const query = getQuery(location);
         let redirect = decodeURIComponent(query.redirect || '/');
 
         history.push(redirect);

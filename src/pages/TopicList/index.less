@@ -1,0 +1,58 @@
+@import "~@less/mixins.less";
+.topic-list {
+    .topic-list-item {
+        display: block;
+        padding: 10px @paddingSpace;
+        color: @textBaseColor;
+        border-bottom: 1px solid @borderColor;
+        .topic-list-item-title {
+            display: flex;
+            align-items: center;
+            color: @topicTitleColor;
+            white-space: nowrap;
+            .topic-list-item-label {
+                padding: 5px 6px;
+                margin-right: 10px;
+                font-size: 0.6rem;
+                color: #fff;
+                border-radius: 4px;
+                .topic-label-color();
+            }
+            .topic-list-item-text {
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
+        }
+        .topic-list-item-content {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 10px;
+            font-size: 0.9rem;
+            .topic-list-item-left {
+                display: flex;
+                align-items: center;
+                .topic-list-item-avatar {
+                    width: 40px;
+                    height: 40px;
+                    margin-right: 10px;
+                    border-radius: 50%;
+                }
+                .topic-list-item-texts {
+                    display: flex;
+                    flex-direction: column;
+                }
+            }
+            .topic-list-item-right {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                text-align: right;
+                .topic-list-item-status {
+                    .topic-list-item-reply-count {
+                        color: @green;
+                    }
+                }
+            }
+        }
+    }
+}
