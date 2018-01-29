@@ -38,6 +38,13 @@ export const getQuery = location => {
     return parse(location.search.substr(1));
 };
 
+export const getPath = location => {
+    if (!location) {
+        throw new Error('getPath: location must be a valid react-route location');
+    }
+    return location.pathname.split('/').filter(path => !!path);
+};
+
 export const getTimeago = time => {
     let str = '';
 
