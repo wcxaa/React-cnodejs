@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
 import { PAGE_TYPE_MAP } from '@js/constants';
+import { getQuery, getPath } from '@js/utils';
 import './index.less';
 
 class Navigation extends React.Component {
@@ -53,7 +54,9 @@ class Navigation extends React.Component {
                         className="navigation-icon-menu iconfont icon-menu-hamburger"
                         onClick={this.toggleMenu}
                     />
-                    <span className="navigation-title" />
+                    <span className="navigation-title">
+                        {PAGE_TYPE_MAP[getQuery(location).tab || getPath(location)[0]]}
+                    </span>
                     <Link to="/add-topic" className="navigation-icon-send iconfont icon-send" />
                 </header>
                 <div className="navigation-divider" />
