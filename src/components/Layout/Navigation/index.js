@@ -10,8 +10,8 @@ import './index.less';
 class Navigation extends React.Component {
     static propTypes = {
         user: PropTypes.shape({
-            loginname: PropTypes.string.isRequired,
-            avatar_url: PropTypes.string.isRequired,
+            loginname: PropTypes.string,
+            avatar_url: PropTypes.string,
         }).isRequired,
         message: PropTypes.shape({
             notReadCount: PropTypes.number.isRequired,

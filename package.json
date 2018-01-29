@@ -23,6 +23,8 @@
   "homepage": "https://github.com/wcxaa/React-cnodejs#readme",
   "dependencies": {
     "axios": "^0.17.1",
+    "github-markdown-css": "^2.10.0",
+    "lodash": "^4.17.4",
     "prop-types": "^15.6.0",
     "qs": "^6.5.1",
     "react": "^16.2.0",

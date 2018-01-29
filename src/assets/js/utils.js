@@ -3,6 +3,8 @@ import { parse } from 'qs';
 import Timeago from 'timeago.js';
 import { PAGE_TYPE_MAP, baseURL } from './constants';
 
+export { debounce, throttle } from 'lodash';
+
 export const getTopicLabel = (top, good, tab) => {
     let str = '';
 
@@ -30,7 +32,7 @@ export const fetch = async (url, config) => {
 };
 
 export const getQuery = location => {
-    if (!(location && location.search)) {
+    if (!location) {
         throw new Error('getQuery: location must be a valid react-route location');
     }
     return parse(location.search.substr(1));

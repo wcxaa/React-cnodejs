@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
 import { Link } from 'react-router-dom';
-import { LoadingPage } from '@components/Loading';
-import Error from '@components/Error';
+import PageLoader from '@components/PageLoader';
+import { LoadingSpan } from '@components/Loading';
 
-import { getTopicLabel, getQuery, getTimeago } from '@js/utils';
+import { getTopicLabel, getQuery, getTimeago, throttle } from '@js/utils';
 import { fetchTopicListByTab, fetchNextPageTopicList } from '@store/topicList';
 
 import './index.less';
@@ -22,47 +21,44 @@ class TopicList extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            initError: null,
-        };
-
+        this.isInit = true;
         this.init = this.init.bind(this);
+        this.scroll = this.scroll.bind(this);
     }
     componentWillMount() {
         this.init();
     }
-    init(location = this.props.location) {
-        const { fetchTopicListByTab } = this.props;
-        try {
-            fetchTopicListByTab(getQuery(location).tab);
-        } catch (error) {
-            this.setState(prevState => ({
-                ...prevState,
-                initError: error,
-            }));
-        }
+    componentDidMount() {
+        window.addEventListener('scroll', throttle(this.scroll, 150, 300));
     }
     shouldComponentUpdate(nextProps) {
         if (nextProps.location !== this.props.location) {
             this.init(nextProps.location);
             return false;
         }
+
         return true;
     }
+    init(location = this.props.location) {
+        const { fetchTopicListByTab } = this.props;
+        fetchTopicListByTab(getQuery(location).tab);
+    }
+    scroll(e) {
+        const valid =
+            this.$loading.getBoundingClientRect().bottom <= document.documentElement.clientHeight;
 
+        if (valid) {
+            this.isInit = false;
+            this.props.fetchNextPageTopicList();
+        }
+    }
     render() {
-        const { initError } = this.state;
         const { topicList } = this.props;
-        const isInit = !topicList.data.length;
-        const isInitLoading = isInit && topicList.isFetching;
-        const hasInitError = isInit && initError;
         return (
-            <div>
-                {isInitLoading ? <LoadingPage /> : ''}
-                {hasInitError ? <Error error={initError} /> : ''}
-                {!isInitLoading && !hasInitError ? (
+            <PageLoader state={topicList} isInit={this.isInit}>
+                {
                     <section>
-                        <ul className="topic-list" ref="topicList">
+                        <ul className="topic-list">
                             {topicList.data.map(topic => (
                                 <li key={topic.id}>
                                     <Link className="topic-list-item" to={`/topic/${topic.id}/`}>
@@ -108,12 +104,13 @@ class TopicList extends React.Component {
                                     </Link>
                                 </li>
                             ))}
+                            <div className="loading-span-wrap" ref={ele => (this.$loading = ele)}>
+                                <LoadingSpan />
+                            </div>
                         </ul>
                     </section>
-                ) : (
-                    ''
-                )}
-            </div>
+                }
+            </PageLoader>
         );
     }
 }

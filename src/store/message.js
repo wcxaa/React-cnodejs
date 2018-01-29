@@ -1,17 +1,9 @@
-const SET_NOT_READ_COUNT = Symbol('setNotReadCound');
+import Resource from '@js/redux-resource';
 
-export const setNotReadCount = notReadCount => ({
-    type: SET_NOT_READ_COUNT,
-    notReadCount,
+const resource = new Resource();
+
+export const setNotReadCount = resource.createAction(notReadCount => () => ({ notReadCount }));
+
+export default resource.createReducer({
+    notReadCount: 0,
 });
-
-export default (state = { notReadCount: 0 }, action) => {
-    switch (action.type) {
-        case SET_NOT_READ_COUNT:
-            return {
-                notReadCount: action.notReadCount,
-            };
-        default:
-            return state;
-    }
-};

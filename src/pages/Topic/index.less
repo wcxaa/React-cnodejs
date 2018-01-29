@@ -1,0 +1,113 @@
+@import "~@less/mixins.less";
+.topic {
+    padding: 0 @paddingSpace;
+    .topic-title {
+        padding: 5px;
+        margin: 15px 0;
+        font-size: 1.1rem;
+        color: #2c3e50;
+        background-color: #f0f0f0;
+        border-radius: 5px;
+    }
+    .topic-info {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.9rem;
+        .topic-left {
+            display: flex;
+            align-items: center;
+            .topic-link {
+                margin-right: 10px;
+                font-size: 0;
+                .topic-avatar {
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 50%;
+                }
+            }
+            .topic-texts {
+                display: flex;
+                flex-direction: column;
+                .topic-name,
+                .topic-create-at {
+                    padding: 5px 0;
+                }
+            }
+        }
+        .topic-right {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: right;
+            .topic-label {
+                padding: 5px 6px;
+                color: #fff;
+                text-align: center;
+                border-radius: 4px;
+                .topic-label-color();
+            }
+            .topic-visit-count {
+                padding: 5px 0;
+            }
+        }
+    }
+    .topic-content {
+        margin-top: 30px;
+    }
+}
+
+.section-reply {
+    .title {
+        padding: @paddingSpace;
+        border-top: 1px solid @borderColor;
+        .reply-count {
+            color: @green;
+        }
+    }
+    .reply-list {
+        .reply {
+            padding: 10px @paddingSpace;
+            border-top: 1px solid @borderColor;
+            .info {
+                display: flex;
+                justify-content: space-between;
+                .left {
+                    display: flex;
+                    align-items: center;
+                    max-width: 65%;
+                    .avatar-link {
+                        display: inline-block;
+                        margin-right: 10px;
+                        font-size: 0;
+                        .avatar {
+                            width: 45px;
+                            height: 45px;
+                            border-radius: 10px;
+                        }
+                    }
+                    .text {
+                        font-size: 0.9rem;
+                    }
+                }
+                .right {
+                    display: flex;
+                    align-items: center;
+                    .iconfont {
+                        font-size: 1.5rem;
+                        &.active {
+                            color: @lightGreen;
+                        }
+                    }
+                    .up-count {
+                        margin: 0 10px 0 5px;
+                    }
+                }
+            }
+            .content {
+                margin-top: 10px;
+                font-size: 0.9rem;
+                overflow-x: scroll;
+            }
+        }
+    }
+}

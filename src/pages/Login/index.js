@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { handleLogin } from '@store/user';
+import { login } from '@store/user';
 import { withAlert } from '@components/Alert';
 import { getQuery } from '@js/utils';
 import './index.less';
@@ -12,9 +12,9 @@ class Login extends React.Component {
         alert: PropTypes.func.isRequired,
         location: PropTypes.object.isRequired,
         history: PropTypes.object.isRequired,
-        handleLogin: PropTypes.func.isRequired,
+        login: PropTypes.func.isRequired,
         user: PropTypes.shape({
-            isHandlingLogin: PropTypes.bool.isRequired,
+            isRequesting: PropTypes.bool.isRequired,
         }).isRequired,
     };
     constructor(props) {
@@ -35,16 +35,16 @@ class Login extends React.Component {
         e.preventDefault();
 
         const { token } = this.state;
-        const { alert, location, history, handleLogin, user } = this.props;
-
-        if (user.isHandlingLogin) {
+        const { alert, location, history, login } = this.props;
+        let { user } = this.props;
+        if (user.isRequesting) {
             return false;
         }
 
-        try {
-            await handleLogin(token);
-        } catch (error) {
-            alert(error.message);
+        await login(token);
+        user = this.props.user;
+        if (user.error) {
+            alert(user.error.message);
             return false;
         }
 
@@ -76,4 +76,4 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(mapStateToProps, { handleLogin })(withAlert(Login));
+export default connect(mapStateToProps, { login })(withAlert(Login));

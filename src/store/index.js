@@ -9,6 +9,7 @@ import { PersistGate } from 'redux-persist/es/integration/react';
 import user from './user';
 import message from './message';
 import topicList from './topicList';
+import topic from './topic';
 
 const config = {
     key: 'root',
@@ -20,6 +21,7 @@ const store = createStore(
         user,
         message,
         topicList,
+        topic,
     }),
     compose(
         applyMiddleware(thunk),
