@@ -45,6 +45,7 @@ class TopicList extends React.Component {
     }
     scroll(e) {
         const valid =
+            this.$loading &&
             this.$loading.getBoundingClientRect().bottom <= document.documentElement.clientHeight;
 
         if (valid) {
