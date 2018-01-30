@@ -41,10 +41,10 @@ class Login extends React.Component {
             return false;
         }
 
-        await login(token);
-        user = this.props.user;
-        if (user.error) {
-            alert(user.error.message);
+        try {
+            await login(token);
+        } catch (error) {
+            alert(error.message);
             return false;
         }
 

@@ -10,11 +10,11 @@
     z-index: 9;
     transform: translateY(-100%);
     transition: transform 0.4s;
-    &.slide-enter,
-    &.slide-exit {
-        transform: translateY(-100%);
-    }
-    &.slide-enter-active {
+    visibility: hidden;
+    &.show {
         transform: translateY(0)
+    }
+    &.visiable {
+        visibility: visible
     }
 }

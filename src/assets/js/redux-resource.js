@@ -25,6 +25,7 @@ export default class {
                 await asyncFunc(...args)(dispatch, ...rest);
             } catch (error) {
                 dispatch(this._setError(error));
+                throw error;
             } finally {
                 dispatch(this._setIsRequesting(false));
             }
