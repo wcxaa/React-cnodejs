@@ -55,7 +55,8 @@ class Navigation extends React.Component {
                         onClick={this.toggleMenu}
                     />
                     <span className="navigation-title">
-                        {PAGE_TYPE_MAP[getQuery(location).tab || getPath(location)[0]]}
+                        {PAGE_TYPE_MAP[getQuery(location).tab || getPath(location)[0]] ||
+                            PAGE_TYPE_MAP['all']}
                     </span>
                     <Link to="/add-topic" className="navigation-icon-send iconfont icon-send" />
                 </header>
