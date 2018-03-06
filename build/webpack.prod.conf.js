@@ -11,6 +11,7 @@ var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin');
 var env = config.build.env;
 
 var webpackConfig = merge(baseWebpackConfig, {
+    mode: 'production',
     module: {
         rules: utils.styleLoaders({
             sourceMap: config.build.productionSourceMap,
@@ -28,12 +29,12 @@ var webpackConfig = merge(baseWebpackConfig, {
         new webpack.DefinePlugin({
             'process.env': env,
         }),
-        new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warnings: false,
-            },
-            sourceMap: true,
-        }),
+        // new webpack.optimize.UglifyJsPlugin({
+        //     compress: {
+        //         warnings: false,
+        //     },
+        //     sourceMap: true,
+        // }),
         // extract css into its own file
         new ExtractTextPlugin({
             filename: utils.assetsPath('css/[name].[contenthash].css'),
@@ -65,25 +66,25 @@ var webpackConfig = merge(baseWebpackConfig, {
         // keep module.id stable when vender modules does not change
         new webpack.HashedModuleIdsPlugin(),
         // split vendor js into its own file
-        new webpack.optimize.CommonsChunkPlugin({
-            name: 'vendor',
-            minChunks: function(module, count) {
-                // any required modules inside node_modules are extracted to vendor
-                // console.log('module.resource:', module.resource)
-                return (
-                    module.resource &&
-                    /\.js$/.test(module.resource) &&
-                    module.resource.indexOf(path.join(__dirname, '../node_modules')) === 0
-                );
-            },
-        }),
-        // extract webpack runtime and module manifest to its own file in order to
-        // prevent vendor hash from being updated whenever app bundle is updated
-        new webpack.optimize.CommonsChunkPlugin({
-            name: 'manifest',
-            chunks: ['vendor'],
-            // children: true
-        }),
+        // new webpack.optimize.CommonsChunkPlugin({
+        //     name: 'vendor',
+        //     minChunks: function(module, count) {
+        //         // any required modules inside node_modules are extracted to vendor
+        //         // console.log('module.resource:', module.resource)
+        //         return (
+        //             module.resource &&
+        //             /\.js$/.test(module.resource) &&
+        //             module.resource.indexOf(path.join(__dirname, '../node_modules')) === 0
+        //         );
+        //     },
+        // }),
+        // // extract webpack runtime and module manifest to its own file in order to
+        // // prevent vendor hash from being updated whenever app bundle is updated
+        // new webpack.optimize.CommonsChunkPlugin({
+        //     name: 'manifest',
+        //     chunks: ['vendor'],
+        //     // children: true
+        // }),
     ],
 });
 
