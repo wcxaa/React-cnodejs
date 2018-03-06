@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { CSSTransition } from 'react-transition-group';
 import './Alert.less';
 
 class Alert extends React.Component {
