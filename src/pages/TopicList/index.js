@@ -26,10 +26,16 @@ class TopicList extends React.Component {
         this.scroll = this.scroll.bind(this);
     }
     componentWillMount() {
+        console.log('topicList willMount');
         this.init();
     }
     componentDidMount() {
-        window.addEventListener('scroll', throttle(this.scroll, 150, 300));
+        console.log('topic didMount');
+        this.scollListener = throttle(this.scroll, 150, 300);
+        window.addEventListener('scroll', this.scollListener);
+    }
+    componentWillUnmount() {
+        window.removeEventListener('scroll', this.scollListener);
     }
     shouldComponentUpdate(nextProps) {
         if (nextProps.location !== this.props.location) {
@@ -40,8 +46,11 @@ class TopicList extends React.Component {
         return true;
     }
     init(location = this.props.location) {
-        const { fetchTopicListByTab } = this.props;
-        fetchTopicListByTab(getQuery(location).tab);
+        const { tab } = getQuery(location);
+        const { topicList, fetchTopicListByTab } = this.props;
+        if (topicList.searchKey.tab !== tab) {
+            fetchTopicListByTab(tab);
+        }
     }
     scroll(e) {
         const valid =
