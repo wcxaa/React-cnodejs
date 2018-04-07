@@ -1,5 +1,5 @@
 import { fetch } from '@js/utils';
-import Resource from '@js/redux-resource';
+import Resource from 'redux-thunk-resource';
 
 const resource = new Resource();
 
@@ -28,13 +28,12 @@ export const fetchTopicList = resource.createRequest(
     },
 );
 
-export const fetchNextPageTopicList =
-    () => async (dispatch, getState) => {
-        const { topicList: { searchKey } } = getState();
-        dispatch(fetchTopicList({ page: searchKey.page + 1 }));
-    };
+export const fetchNextPageTopicList = () => (dispatch, getState) => {
+    const { topicList: { searchKey } } = getState();
+    dispatch(fetchTopicList({ page: searchKey.page + 1 }));
+};
 
-export const fetchTopicListByTab = tab => async dispatch => {
+export const fetchTopicListByTab = tab => dispatch => {
     dispatch(clearTopicList());
     dispatch(fetchTopicList({ tab, page: 1 }));
 };

@@ -37,6 +37,7 @@
     "redux": "^3.7.2",
     "redux-persist": "^5.4.0",
     "redux-thunk": "^2.2.0",
+    "redux-thunk-resource": "^1.0.2",
     "timeago.js": "^3.0.2"
   },
   "devDependencies": {

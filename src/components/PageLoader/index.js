@@ -7,7 +7,7 @@ import { Error } from '@components/Error';
 class PageLoader extends React.Component {
     static propTypes = {
         state: PropTypes.shape({
-            isRequesting: PropTypes.bool.isRequired,
+            isFetching: PropTypes.bool.isRequired,
             error: PropTypes.object,
         }).isRequired,
         isInit: PropTypes.bool,
@@ -17,13 +17,13 @@ class PageLoader extends React.Component {
     };
     render() {
         const { state, isInit } = this.props;
-        const { isRequesting, error } = state;
+        const { isFetching, error } = state;
 
         return (
             <React.Fragment>
-                {isInit && isRequesting ? <LoadingPage /> : ''}
+                {isInit && isFetching ? <LoadingPage /> : ''}
                 {isInit && error ? <Error error={error} /> : ''}
-                {!isInit || (!isRequesting && !error) ? this.props.children : ''}
+                {!isInit || (!isFetching && !error) ? this.props.children : ''}
             </React.Fragment>
         );
     }

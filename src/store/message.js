@@ -1,4 +1,4 @@
-import Resource from '@js/redux-resource';
+import Resource from 'redux-thunk-resource';
 
 const resource = new Resource();
 
