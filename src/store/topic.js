@@ -1,5 +1,5 @@
 import { fetch } from '@js/utils';
-import Resource from '@js/redux-resource.js';
+import Resource from 'redux-thunk-resource';
 
 const resource = new Resource();
 
