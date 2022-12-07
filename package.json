@@ -28,7 +28,7 @@
     "github-markdown-css": "^2.10.0",
     "lodash": "^4.17.4",
     "prop-types": "^15.6.0",
-    "qs": "^6.5.1",
+    "qs": "^6.5.3",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",
